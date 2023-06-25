@@ -5,16 +5,14 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => Counter(),
-      child: const MyApp(),
+      child:  MyApp(),
     ),
   );
 }
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final counterProvider = Provider.of<Counter>(context);
     return MaterialApp(
       title: 'Provider Demo',
       home: Scaffold(
@@ -25,19 +23,14 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Consumer<Counter>(
-                builder: (context, counter, child) {
-                  return Text(
-                    'Count: ${counter.count}',
-                    style: const TextStyle(fontSize: 24),
-                  );
-                },
+              Text(
+                'Count: ${counterProvider.count}',
+                style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  // Access the Counter instance and call the increment method
-                  Provider.of<Counter>(context, listen: false).increment();
+                  counterProvider.increment();
                 },
                 child: const Text('Increment'),
               ),
@@ -48,4 +41,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
